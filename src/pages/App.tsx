@@ -16,7 +16,7 @@ const fetchData = async (url = '') => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'X-API-KEY': '',
+      'X-API-KEY': import.meta.env.VITE_API_KEY,
     },
   });
   return response.json();
