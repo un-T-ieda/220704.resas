@@ -1,0 +1,21 @@
+### RESAS prefectures
+
+https://opendata.resas-portal.go.jp/api/v1/prefectures
+content-type: application/json
+X-API-KEY: {{ resas-api-key }}
+
+### RESAS population
+
+https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=2
+content-type: application/json
+X-API-KEY: {{ resas-api-key }}
+
+### JSON Server mock prefectures
+
+http://localhost:8000/prefectures
+
+
+### JSON Server mock population
+
+http://localhost:8000/population?prefCode=1
+
