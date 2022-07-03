@@ -13,6 +13,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "highcharts": "^10.1.0",
+    "highcharts-react-official": "^3.1.0",
     "json-server": "^0.17.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
