@@ -1,9 +1,0 @@
-### RESAS population
-
-https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=1
-content-type: application/json
-X-API-KEY: {{ resas-api-key }}
-
-### JSON Server mock
-
-http://localhost:8000/population?prefCode=1
