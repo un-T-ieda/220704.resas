@@ -1,0 +1,3 @@
+{
+  "/population?prefCode=:prefCode": "/population_:prefCode"
+}
