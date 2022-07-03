@@ -6,7 +6,7 @@
     "dev": "vite & yarn mockapi",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "mockapi": "yarn json-server --watch mockapi.json  --port 8000",
+    "mockapi": "yarn json-server --watch mockapi.json --routes routes.json --port 8000",
     "prepare": "husky install"
   },
   "dependencies": {
