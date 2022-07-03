@@ -1,5 +1,6 @@
-import { css } from '@emotion/react';
 import { useEffect, useState, ChangeEvent } from 'react';
+import { css } from '@emotion/react';
+import { AppChart } from '@/components/AppChart';
 
 type PrefectureResponse = {
   // OPTIMIZE: 1 ~ 47 の Union 型にしたいがいい方法はない？
@@ -7,12 +8,23 @@ type PrefectureResponse = {
   prefName: string;
 };
 
+type PopulationData = {
+  year: number;
+  value: number;
+};
+
 type PopulationResponse = {
-  data: {
-    year: number;
-    value: number;
-  }[];
-  label: string;
+  result: {
+    data: {
+      label: string;
+      data: PopulationData[];
+    }[];
+  };
+};
+
+type PrefecturePopulation = {
+  prefName: string;
+  data: PopulationData[];
 };
 
 const isProduction = import.meta.env.MODE === 'production';
@@ -38,9 +50,7 @@ const fetchData = async (url = '') => {
 
 export const App = () => {
   const [prefecture, setPrefecture] = useState<PrefectureResponse[]>([]);
-  const [displayPopulationList, setDisplayPopulationList] = useState<
-    { [key: string]: PopulationResponse[] }[]
-  >([]);
+  const [population, setPopulation] = useState<PrefecturePopulation[]>([]);
   const [checkList, setCheckList] = useState<number[]>([]);
 
   const fetchPrefectures = () => {
@@ -52,31 +62,37 @@ export const App = () => {
   };
 
   const fetchPopulation = (eventPrefCode: number) => {
-    fetchData(populationAPIUrl(eventPrefCode)).then((res) => {
-      const data: PopulationResponse[] = res.result.data;
+    fetchData(populationAPIUrl(eventPrefCode)).then((res: PopulationResponse) => {
+      const data: PopulationData[] = res.result.data[0].data;
+      const prefName = prefecture.find((item) => item.prefCode === eventPrefCode)!.prefName;
 
-      setDisplayPopulationList([...displayPopulationList, { [eventPrefCode.toString()]: data }]);
+      setPopulation([
+        ...population,
+        {
+          prefName,
+          data,
+        },
+      ]);
     });
   };
-
-  useEffect(() => {
-    fetchPrefectures();
-  }, []);
 
   const handleChange = (event: ChangeEvent) => {
     const eventTarget = event.target as HTMLInputElement;
     const eventPrefCode = parseInt(eventTarget.value);
+    const prefName = prefecture.find((item) => item.prefCode === eventPrefCode)!.prefName;
 
     if (eventTarget.checked) {
       setCheckList([...checkList, eventPrefCode]);
       fetchPopulation(eventPrefCode);
     } else {
       setCheckList(checkList.filter((item) => item !== eventPrefCode));
-      setDisplayPopulationList(
-        displayPopulationList.filter((item) => Object.keys(item)[0] !== eventPrefCode.toString()),
-      );
+      setPopulation(population.filter((item) => item.prefName !== prefName));
     }
   };
+
+  useEffect(() => {
+    fetchPrefectures();
+  }, []);
 
   return (
     <>
@@ -106,11 +122,7 @@ export const App = () => {
           </li>
         ))}
       </ul>
-      <code className="debug">
-        <p>checked: {JSON.stringify(checkList)}</p>
-        <p>mode: {import.meta.env.MODE}</p>
-        {JSON.stringify(displayPopulationList)}
-      </code>
+      <AppChart population={population}></AppChart>
     </>
   );
 };
