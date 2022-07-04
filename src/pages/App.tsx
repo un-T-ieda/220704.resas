@@ -1,6 +1,9 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { css } from '@emotion/react';
 import { AppChart } from '@/components/AppChart';
+import { CheckButton } from '@/components/CheckButton';
+import { mixins } from '@/utils/styles';
+import { LayoutContainer } from '@/components/LayoutContainer';
 
 type PrefectureResponse = {
   // OPTIMIZE: 1 ~ 47 の Union 型にしたいがいい方法はない？
@@ -95,34 +98,85 @@ export const App = () => {
   }, []);
 
   return (
-    <>
-      <ul
+    <LayoutContainer>
+      <div
         css={css`
           display: flex;
-          gap: 2rem;
-          flex-wrap: wrap;
+          flex-direction: column;
+          gap: ${mixins.rem(1.6)};
         `}
       >
-        {prefecture.map((item) => (
-          <li key={item.prefCode}>
-            <label
-              css={css`
-                cursor: pointer;
-              `}
-            >
-              {item.prefName}
-              <input
+        <h1
+          css={css`
+            overflow-wrap: break-word;
+            word-break: keep-all;
+            line-height: var(--lh-tight);
+          `}
+        >
+          都道府県別&nbsp;
+          <wbr />
+          総人口推移グラフ
+        </h1>
+        <div
+          css={css`
+            display: flex;
+            overflow-x: auto;
+          `}
+        >
+          <p
+            css={css`
+              flex-shrink: 0;
+            `}
+          >
+            選択中の都道府県：
+          </p>
+          <ul
+            css={css`
+              display: flex;
+              flex-shrink: 0;
+            `}
+          >
+            {prefecture
+              .filter((item) => checkList.includes(item.prefCode))
+              .map((item) => (
+                <li key={item.prefName}>{item.prefName}&nbsp;</li>
+              ))}
+          </ul>
+        </div>
+        <ul
+          css={css`
+            display: grid;
+            gap: ${mixins.rem(1.2)};
+            grid-template-columns: repeat(auto-fit, minmax(${mixins.rem(8)}, 1fr));
+            padding: ${mixins.rem(1.6)} ${mixins.rem(0.8)};
+            border-top: 1px solid var(--line-secondary-color);
+            border-bottom: 1px solid var(--line-secondary-color);
+            max-height: 40vh;
+            overflow-y: auto;
+            position: relative;
+          `}
+        >
+          {prefecture.map((item) => (
+            <li key={item.prefCode}>
+              <CheckButton
+                name={item.prefName}
+                value={item.prefCode.toString()}
                 onChange={(event) => {
                   handleChange(event);
                 }}
-                type="checkbox"
-                value={item.prefCode}
-              />
-            </label>
-          </li>
-        ))}
-      </ul>
-      <AppChart population={population}></AppChart>
-    </>
+              ></CheckButton>
+            </li>
+          ))}
+        </ul>
+        <div
+          css={css`
+            margin-left: ${mixins.rem(-2.5)};
+            margin-right: ${mixins.rem(-1)};
+          `}
+        >
+          <AppChart population={population}></AppChart>
+        </div>
+      </div>
+    </LayoutContainer>
   );
 };

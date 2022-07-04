@@ -49,5 +49,12 @@ export const createHighcartsOptions = (population: PrefecturePopulation[]): High
 export const AppChart: FC<AppChartProps> = ({ population }) => {
   const options = createHighcartsOptions(population);
 
+  Highcharts.setOptions({
+    lang: {
+      numericSymbols: ['万', '億'],
+      numericSymbolMagnitude: 10000,
+    },
+  });
+
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
