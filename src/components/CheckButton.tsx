@@ -1,14 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import { ChangeEventHandler, FC } from 'react';
+import { FC } from 'react';
 import { css } from '@emotion/react';
 import { mixins } from '@/utils/styles';
-
-type CheckButtonProps = {
-  name: string;
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
-};
+import { CheckButtonProps } from '@/types';
 
 export const CheckButton: FC<CheckButtonProps> = ({
   name,

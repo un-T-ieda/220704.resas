@@ -1,20 +1,7 @@
 import { FC } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
-type PopulationData = {
-  year: number;
-  value: number;
-};
-
-type PrefecturePopulation = {
-  prefName: string;
-  data: PopulationData[];
-};
-
-type AppChartProps = {
-  population: PrefecturePopulation[];
-};
+import { AppChartProps, PrefecturePopulation } from '@/types';
 
 export const createHighcartsOptions = (
   population: PrefecturePopulation[],

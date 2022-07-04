@@ -1,12 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 import { css } from '@emotion/react';
 import { mixins } from '@/utils/styles';
-
-interface LayoutContainerProps {
-  children: ReactNode;
-}
+import { LayoutContainerProps } from '@/types';
 
 export const LayoutContainer: FC<LayoutContainerProps> = ({ children }) => {
   return (

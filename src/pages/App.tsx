@@ -4,31 +4,12 @@ import { AppChart } from '@/components/AppChart';
 import { CheckButton } from '@/components/CheckButton';
 import { mixins } from '@/utils/styles';
 import { LayoutContainer } from '@/components/LayoutContainer';
-
-type PrefectureResponse = {
-  // OPTIMIZE: 1 ~ 47 の Union 型にしたいがいい方法はない？
-  prefCode: number;
-  prefName: string;
-};
-
-type PopulationData = {
-  year: number;
-  value: number;
-};
-
-type PopulationResponse = {
-  result: {
-    data: {
-      label: string;
-      data: PopulationData[];
-    }[];
-  };
-};
-
-type PrefecturePopulation = {
-  prefName: string;
-  data: PopulationData[];
-};
+import {
+  PopulationData,
+  PopulationResponse,
+  PrefecturePopulation,
+  PrefectureResponse,
+} from '@/types';
 
 const isProduction = import.meta.env.MODE === 'production';
 const prefecturesAPIUrl = isProduction
