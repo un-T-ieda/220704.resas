@@ -35,6 +35,11 @@ export type CheckButtonProps = {
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
+export type CheckButtonListProps = {
+  prefecture: PrefectureResponse[];
+  onChange: ChangeEventHandler<HTMLInputElement>;
+};
+
 export type LayoutContainerProps = {
   children: ReactNode;
 };

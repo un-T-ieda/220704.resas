@@ -1,16 +1,16 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { css } from '@emotion/react';
 import { AppChart } from '@/components/AppChart';
-import { CheckButton } from '@/components/CheckButton';
-import { mixins } from '@/utils/styles';
+import { CheckButtonList } from '@/components/CheckButtonList';
 import { LayoutContainer } from '@/components/LayoutContainer';
+import { SelectedPrefecture } from '@/components/SelectedPrefecture';
+import { mixins } from '@/utils/styles';
 import {
   PopulationData,
   PopulationResponse,
   PrefecturePopulation,
   PrefectureResponse,
 } from '@/types';
-import { SelectedPrefecture } from '@/components/SelectedPrefecture';
 
 const isProduction = import.meta.env.MODE === 'production';
 const prefecturesAPIUrl = isProduction
@@ -106,34 +106,10 @@ export const App = () => {
           総人口推移グラフ
         </h1>
         <SelectedPrefecture prefecture={prefecture} checkList={checkList} />
-        <ul
-          css={css`
-            display: grid;
-            gap: ${mixins.rem(1.2)};
-            grid-template-columns: repeat(
-              auto-fit,
-              minmax(${mixins.rem(8)}, 1fr)
-            );
-            padding: ${mixins.rem(1.6)} ${mixins.rem(0.8)};
-            border-top: 1px solid var(--line-secondary-color);
-            border-bottom: 1px solid var(--line-secondary-color);
-            max-height: 40vh;
-            overflow-y: auto;
-            position: relative;
-          `}
-        >
-          {prefecture.map((item) => (
-            <li key={item.prefCode}>
-              <CheckButton
-                name={item.prefName}
-                value={item.prefCode.toString()}
-                onChange={(event) => {
-                  handleChange(event);
-                }}
-              ></CheckButton>
-            </li>
-          ))}
-        </ul>
+        <CheckButtonList
+          prefecture={prefecture}
+          onChange={(event) => handleChange(event)}
+        />
         <div
           css={css`
             margin-left: ${mixins.rem(-2.5)};
