@@ -10,6 +10,7 @@ import {
   PrefecturePopulation,
   PrefectureResponse,
 } from '@/types';
+import { SelectedPrefecture } from '@/components/SelectedPrefecture';
 
 const isProduction = import.meta.env.MODE === 'production';
 const prefecturesAPIUrl = isProduction
@@ -104,32 +105,7 @@ export const App = () => {
           <wbr />
           総人口推移グラフ
         </h1>
-        <div
-          css={css`
-            display: flex;
-            overflow-x: auto;
-          `}
-        >
-          <p
-            css={css`
-              flex-shrink: 0;
-            `}
-          >
-            選択中の都道府県：
-          </p>
-          <ul
-            css={css`
-              display: flex;
-              flex-shrink: 0;
-            `}
-          >
-            {prefecture
-              .filter((item) => checkList.includes(item.prefCode))
-              .map((item) => (
-                <li key={item.prefName}>{item.prefName}&nbsp;</li>
-              ))}
-          </ul>
-        </div>
+        <SelectedPrefecture prefecture={prefecture} checkList={checkList} />
         <ul
           css={css`
             display: grid;

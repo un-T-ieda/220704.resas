@@ -38,3 +38,8 @@ export type CheckButtonProps = {
 export type LayoutContainerProps = {
   children: ReactNode;
 };
+
+export type SelectedPrefectureProps = {
+  prefecture: PrefectureResponse[];
+  checkList: number[];
+};
