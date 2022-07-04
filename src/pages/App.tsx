@@ -168,7 +168,14 @@ export const App = () => {
             </li>
           ))}
         </ul>
-        <AppChart population={population}></AppChart>
+        <div
+          css={css`
+            margin-left: ${mixins.rem(-2.5)};
+            margin-right: ${mixins.rem(-1)};
+          `}
+        >
+          <AppChart population={population}></AppChart>
+        </div>
       </div>
     </LayoutContainer>
   );
