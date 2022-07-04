@@ -65,24 +65,30 @@ export const App = () => {
   };
 
   const fetchPopulation = (eventPrefCode: number) => {
-    fetchData(populationAPIUrl(eventPrefCode)).then((res: PopulationResponse) => {
-      const data: PopulationData[] = res.result.data[0].data;
-      const prefName = prefecture.find((item) => item.prefCode === eventPrefCode)!.prefName;
+    fetchData(populationAPIUrl(eventPrefCode)).then(
+      (res: PopulationResponse) => {
+        const data: PopulationData[] = res.result.data[0].data;
+        const prefName = prefecture.find(
+          (item) => item.prefCode === eventPrefCode,
+        )!.prefName;
 
-      setPopulation([
-        ...population,
-        {
-          prefName,
-          data,
-        },
-      ]);
-    });
+        setPopulation([
+          ...population,
+          {
+            prefName,
+            data,
+          },
+        ]);
+      },
+    );
   };
 
   const handleChange = (event: ChangeEvent) => {
     const eventTarget = event.target as HTMLInputElement;
     const eventPrefCode = parseInt(eventTarget.value);
-    const prefName = prefecture.find((item) => item.prefCode === eventPrefCode)!.prefName;
+    const prefName = prefecture.find(
+      (item) => item.prefCode === eventPrefCode,
+    )!.prefName;
 
     if (eventTarget.checked) {
       setCheckList([...checkList, eventPrefCode]);
@@ -147,7 +153,10 @@ export const App = () => {
           css={css`
             display: grid;
             gap: ${mixins.rem(1.2)};
-            grid-template-columns: repeat(auto-fit, minmax(${mixins.rem(8)}, 1fr));
+            grid-template-columns: repeat(
+              auto-fit,
+              minmax(${mixins.rem(8)}, 1fr)
+            );
             padding: ${mixins.rem(1.6)} ${mixins.rem(0.8)};
             border-top: 1px solid var(--line-secondary-color);
             border-bottom: 1px solid var(--line-secondary-color);

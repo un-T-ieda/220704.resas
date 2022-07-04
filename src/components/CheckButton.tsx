@@ -10,7 +10,11 @@ type CheckButtonProps = {
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-export const CheckButton: FC<CheckButtonProps> = ({ name, value, onChange }) => {
+export const CheckButton: FC<CheckButtonProps> = ({
+  name,
+  value,
+  onChange,
+}) => {
   return (
     <div
       css={css`

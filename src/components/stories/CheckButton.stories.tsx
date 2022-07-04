@@ -6,7 +6,9 @@ export default {
   component: CheckButton,
 } as ComponentMeta<typeof CheckButton>;
 
-const Template: ComponentStory<typeof CheckButton> = (args) => <CheckButton {...args} />;
+const Template: ComponentStory<typeof CheckButton> = (args) => (
+  <CheckButton {...args} />
+);
 
 export const Normal = Template.bind({});
 Normal.args = {

@@ -16,8 +16,11 @@ type AppChartProps = {
   population: PrefecturePopulation[];
 };
 
-export const createHighcartsOptions = (population: PrefecturePopulation[]): Highcharts.Options => {
-  const categories = population[0]?.data?.map((data) => data.year.toString()) ?? [];
+export const createHighcartsOptions = (
+  population: PrefecturePopulation[],
+): Highcharts.Options => {
+  const categories =
+    population[0]?.data?.map((data) => data.year.toString()) ?? [];
   const series: Highcharts.SeriesOptionsType[] =
     population.length !== 0
       ? population?.map((prefData) => ({
