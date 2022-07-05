@@ -7,7 +7,11 @@ import { PrefectureResponse, SelectedPrefectureProps } from '@/types';
 export const searchPrefecture = (
   searchTarget: number,
   prefecture: PrefectureResponse[],
-) => prefecture.filter((item) => searchTarget === item.prefCode)[0];
+) =>
+  prefecture.find((item) => searchTarget === item.prefCode) ?? {
+    prefCode: 0,
+    prefName: 'error',
+  };
 
 export const createSelectedPrefecture = (
   checkList: number[],
