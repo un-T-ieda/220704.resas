@@ -5,6 +5,12 @@ export type PopulationData = {
   value: number;
 };
 
+export type PrefectureData = {
+  // OPTIMIZE: 1 ~ 47 の Union 型にしたいがいい方法はない？
+  prefCode: number;
+  prefName: string;
+};
+
 export type PopulationResponse = {
   result: {
     data: {
@@ -19,12 +25,6 @@ export type PrefecturePopulation = {
   data: PopulationData[];
 };
 
-export type PrefectureResponse = {
-  // OPTIMIZE: 1 ~ 47 の Union 型にしたいがいい方法はない？
-  prefCode: number;
-  prefName: string;
-};
-
 export type AppChartProps = {
   population: PrefecturePopulation[];
 };
@@ -36,7 +36,7 @@ export type CheckButtonProps = {
 };
 
 export type CheckButtonListProps = {
-  prefecture: PrefectureResponse[];
+  prefecture: PrefectureData[];
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
@@ -45,6 +45,6 @@ export type LayoutContainerProps = {
 };
 
 export type SelectedPrefectureProps = {
-  prefecture: PrefectureResponse[];
+  prefecture: PrefectureData[];
   checkList: number[];
 };

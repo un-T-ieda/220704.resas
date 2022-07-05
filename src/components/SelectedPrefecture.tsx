@@ -2,20 +2,24 @@
 
 import { FC } from 'react';
 import { css } from '@emotion/react';
-import { PrefectureResponse, SelectedPrefectureProps } from '@/types';
+import { PrefectureData, SelectedPrefectureProps } from '@/types';
 
 export const searchPrefecture = (
   searchTarget: number,
-  prefecture: PrefectureResponse[],
-) => prefecture.filter((item) => searchTarget === item.prefCode)[0];
+  prefecture: PrefectureData[],
+) =>
+  prefecture.find((item) => searchTarget === item.prefCode) ?? {
+    prefCode: 0,
+    prefName: 'error',
+  };
 
 export const createSelectedPrefecture = (
   checkList: number[],
-  prefecture: PrefectureResponse[],
+  prefecture: PrefectureData[],
 ) => {
   return checkList.reduce((accumulator, targetNumber) => {
     return [...accumulator, searchPrefecture(targetNumber, prefecture)];
-  }, [] as PrefectureResponse[]);
+  }, [] as PrefectureData[]);
 };
 
 export const SelectedPrefecture: FC<SelectedPrefectureProps> = ({

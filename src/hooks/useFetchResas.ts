@@ -3,7 +3,7 @@ import {
   PopulationData,
   PopulationResponse,
   PrefecturePopulation,
-  PrefectureResponse,
+  PrefectureData,
 } from '@/types';
 
 const fetchData = async (url = '') => {
@@ -28,12 +28,12 @@ const populationAPIUrl = (prefCode: number): string => {
 };
 
 export const useFetchResas = () => {
-  const [prefecture, setPrefecture] = useState<PrefectureResponse[]>([]);
+  const [prefecture, setPrefecture] = useState<PrefectureData[]>([]);
   const [population, setPopulation] = useState<PrefecturePopulation[]>([]);
 
   const fetchPrefectures = () => {
     fetchData(prefecturesAPIUrl).then((res) => {
-      const data: PrefectureResponse[] = res.result;
+      const data: PrefectureData[] = res.result;
 
       setPrefecture(data);
     });
