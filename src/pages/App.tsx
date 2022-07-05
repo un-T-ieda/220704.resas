@@ -55,8 +55,8 @@ export const App = () => {
         />
         <div
           css={css`
-            margin-left: ${mixins.rem(-2.5)};
-            margin-right: ${mixins.rem(-1)};
+            margin-left: ${mixins.rem(-2.4)};
+            margin-right: ${mixins.rem(-0.8)};
           `}
         >
           <AppChart population={population}></AppChart>
