@@ -1,88 +1,23 @@
-import { useEffect, useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { css } from '@emotion/react';
 import { AppChart } from '@/components/AppChart';
-import { CheckButton } from '@/components/CheckButton';
-import { mixins } from '@/utils/styles';
+import { CheckButtonList } from '@/components/CheckButtonList';
 import { LayoutContainer } from '@/components/LayoutContainer';
-
-type PrefectureResponse = {
-  // OPTIMIZE: 1 ~ 47 の Union 型にしたいがいい方法はない？
-  prefCode: number;
-  prefName: string;
-};
-
-type PopulationData = {
-  year: number;
-  value: number;
-};
-
-type PopulationResponse = {
-  result: {
-    data: {
-      label: string;
-      data: PopulationData[];
-    }[];
-  };
-};
-
-type PrefecturePopulation = {
-  prefName: string;
-  data: PopulationData[];
-};
-
-const isProduction = import.meta.env.MODE === 'production';
-const prefecturesAPIUrl = isProduction
-  ? 'https://opendata.resas-portal.go.jp/api/v1/prefectures'
-  : 'http://localhost:8000/prefectures';
-const populationAPIUrl = (prefCode: number): string => {
-  return isProduction
-    ? `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`
-    : `http://localhost:8000/population?prefCode=${prefCode}`;
-};
-
-const fetchData = async (url = '') => {
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-API-KEY': import.meta.env.VITE_API_KEY,
-    },
-  });
-  return response.json();
-};
+import { SelectedPrefecture } from '@/components/SelectedPrefecture';
+import { mixins } from '@/utils/styles';
+import { useFetchResas } from '@/hooks/useFetchResas';
 
 export const App = () => {
-  const [prefecture, setPrefecture] = useState<PrefectureResponse[]>([]);
-  const [population, setPopulation] = useState<PrefecturePopulation[]>([]);
   const [checkList, setCheckList] = useState<number[]>([]);
-
-  const fetchPrefectures = () => {
-    fetchData(prefecturesAPIUrl).then((res) => {
-      const data: PrefectureResponse[] = res.result;
-
-      setPrefecture(data);
-    });
-  };
-
-  const fetchPopulation = (eventPrefCode: number) => {
-    fetchData(populationAPIUrl(eventPrefCode)).then((res: PopulationResponse) => {
-      const data: PopulationData[] = res.result.data[0].data;
-      const prefName = prefecture.find((item) => item.prefCode === eventPrefCode)!.prefName;
-
-      setPopulation([
-        ...population,
-        {
-          prefName,
-          data,
-        },
-      ]);
-    });
-  };
+  const { prefecture, population, fetchPopulation, setPopulation } =
+    useFetchResas();
 
   const handleChange = (event: ChangeEvent) => {
     const eventTarget = event.target as HTMLInputElement;
     const eventPrefCode = parseInt(eventTarget.value);
-    const prefName = prefecture.find((item) => item.prefCode === eventPrefCode)!.prefName;
+    const prefName = prefecture.find(
+      (item) => item.prefCode === eventPrefCode,
+    )!.prefName;
 
     if (eventTarget.checked) {
       setCheckList([...checkList, eventPrefCode]);
@@ -92,10 +27,6 @@ export const App = () => {
       setPopulation(population.filter((item) => item.prefName !== prefName));
     }
   };
-
-  useEffect(() => {
-    fetchPrefectures();
-  }, []);
 
   return (
     <LayoutContainer>
@@ -117,57 +48,11 @@ export const App = () => {
           <wbr />
           総人口推移グラフ
         </h1>
-        <div
-          css={css`
-            display: flex;
-            overflow-x: auto;
-          `}
-        >
-          <p
-            css={css`
-              flex-shrink: 0;
-            `}
-          >
-            選択中の都道府県：
-          </p>
-          <ul
-            css={css`
-              display: flex;
-              flex-shrink: 0;
-            `}
-          >
-            {prefecture
-              .filter((item) => checkList.includes(item.prefCode))
-              .map((item) => (
-                <li key={item.prefName}>{item.prefName}&nbsp;</li>
-              ))}
-          </ul>
-        </div>
-        <ul
-          css={css`
-            display: grid;
-            gap: ${mixins.rem(1.2)};
-            grid-template-columns: repeat(auto-fit, minmax(${mixins.rem(8)}, 1fr));
-            padding: ${mixins.rem(1.6)} ${mixins.rem(0.8)};
-            border-top: 1px solid var(--line-secondary-color);
-            border-bottom: 1px solid var(--line-secondary-color);
-            max-height: 40vh;
-            overflow-y: auto;
-            position: relative;
-          `}
-        >
-          {prefecture.map((item) => (
-            <li key={item.prefCode}>
-              <CheckButton
-                name={item.prefName}
-                value={item.prefCode.toString()}
-                onChange={(event) => {
-                  handleChange(event);
-                }}
-              ></CheckButton>
-            </li>
-          ))}
-        </ul>
+        <SelectedPrefecture prefecture={prefecture} checkList={checkList} />
+        <CheckButtonList
+          prefecture={prefecture}
+          onChange={(event) => handleChange(event)}
+        />
         <div
           css={css`
             margin-left: ${mixins.rem(-2.5)};
