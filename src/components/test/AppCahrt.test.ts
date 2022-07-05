@@ -1,8 +1,11 @@
-import { createHighcartsOptions } from './AppChart';
+import { createHighcartsOptions } from '../AppChart';
 
 describe('createHighcartsOptions', () => {
   test('create chart options - 0', () => {
-    const mockPopulation: { prefName: string; data: { year: number; value: number }[] }[] = [];
+    const mockPopulation: {
+      prefName: string;
+      data: { year: number; value: number }[];
+    }[] = [];
 
     const expectData = {
       title: {

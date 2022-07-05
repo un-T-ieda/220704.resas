@@ -1,23 +1,13 @@
 import { FC } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { AppChartProps, PrefecturePopulation } from '@/types';
 
-type PopulationData = {
-  year: number;
-  value: number;
-};
-
-type PrefecturePopulation = {
-  prefName: string;
-  data: PopulationData[];
-};
-
-type AppChartProps = {
-  population: PrefecturePopulation[];
-};
-
-export const createHighcartsOptions = (population: PrefecturePopulation[]): Highcharts.Options => {
-  const categories = population[0]?.data?.map((data) => data.year.toString()) ?? [];
+export const createHighcartsOptions = (
+  population: PrefecturePopulation[],
+): Highcharts.Options => {
+  const categories =
+    population[0]?.data?.map((data) => data.year.toString()) ?? [];
   const series: Highcharts.SeriesOptionsType[] =
     population.length !== 0
       ? population?.map((prefData) => ({
@@ -48,6 +38,13 @@ export const createHighcartsOptions = (population: PrefecturePopulation[]): High
 
 export const AppChart: FC<AppChartProps> = ({ population }) => {
   const options = createHighcartsOptions(population);
+
+  Highcharts.setOptions({
+    lang: {
+      numericSymbols: ['万', '億'],
+      numericSymbolMagnitude: 10000,
+    },
+  });
 
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };

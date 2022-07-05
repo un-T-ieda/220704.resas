@@ -6,7 +6,9 @@ export default {
   component: AppChart,
 } as ComponentMeta<typeof AppChart>;
 
-const Template: ComponentStory<typeof AppChart> = (args) => <AppChart {...args} />;
+const Template: ComponentStory<typeof AppChart> = (args) => (
+  <AppChart {...args} />
+);
 
 export const Normal = Template.bind({});
 Normal.args = {
