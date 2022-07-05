@@ -11,7 +11,7 @@ export const LayoutContainer: FC<LayoutContainerProps> = ({ children }) => {
       css={css`
         max-width: 1280px;
         margin: 0 auto;
-        padding: ${mixins.rem(2.5)};
+        padding: ${mixins.rem(2.4)};
       `}
     >
       {children}
